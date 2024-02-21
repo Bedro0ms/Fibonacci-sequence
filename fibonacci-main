@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+
+// Function to compute the nth Fibonacci number using dynamic programming with memory optimization
+long long optimizedFibonacci(int n, std::vector<long long>& sequence) {
+    // Error handling for negative input
+    if (n < 0) {
+        std::cout << "Fibonacci number is not defined for negative numbers." << std::endl;
+        return -1; // Indicate an error
+    }
+    
+    // Handle the base cases
+    if (n == 0) return 0;
+    if (n == 1) {
+        sequence.push_back(0); // Add the first Fibonacci number
+        sequence.push_back(1); // Add the second Fibonacci number
+        return 1;
+    }
+
+    long long a = 0, b = 1, c;
+    sequence.push_back(a); // Add the first Fibonacci number
+    sequence.push_back(b); // Add the second Fibonacci number
+    
+    // Compute the rest of the Fibonacci numbers up to n
+    for (int i = 2; i <= n; ++i) {
+        c = a + b;
+        sequence.push_back(c); // Add the computed Fibonacci number to the sequence
+        a = b;
+        b = c;
+    }
+
+    // Return the nth Fibonacci number
+    return c;
+}
+
+int main() {
+    int n;
+    std::vector<long long> sequence; // Vector to store the Fibonacci sequence up to n
+    std::cout << "Enter the value of n to compute the nth Fibonacci number: ";
+    std::cin >> n;
+
+    // Call the optimized dynamic programming function and display the result
+    long long nthFibonacci = optimizedFibonacci(n, sequence);
+    if (nthFibonacci != -1) { // Check if there was no error
+        std::cout << "The " << n << "th Fibonacci number is: " << nthFibonacci << std::endl;
+        std::cout << "The Fibonacci sequence up to " << n << " is: ";
+        for (long long num : sequence) {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
